@@ -136,7 +136,7 @@ function Paraphraser({ user }) {
     }
   
     try {
-      await axios.post('https://writing-assistant-backend.vercel.app/api/activity', {
+      await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/activity', {
         user: user.name,
         activityType: "Paraphrasing",
         question: question,

@@ -113,38 +113,37 @@ function PlagiarismChecker({ user }) {
     }
   }, []);
 
-  async function generateAnswer() {
+  const generateAnswer = async () => {
     try {
-      const response = await axios.post('https://writing-assistant-backend.vercel.app/api/generate-answer', { question });
+      const response = await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/generate-answer', { question });
       const { answer } = response.data;
       setAnswer(convertToLinks(answer));
       saveActivityToDatabase(question, answer);
     } catch (error) {
-      console.error('Error generating answer:', error);
+      console.error('Error generating answer:', error.message);
     }
-  }
+  };
 
   function convertToLinks(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank">${url}</a>`);
   }
 
-  async function saveActivityToDatabase(question, generatedAnswer) {
+  const saveActivityToDatabase = async (question, generatedAnswer) => {
     if (!user || !user.name) {
       return;
     }
-  
     try {
-      await axios.post('https://writing-assistant-backend.vercel.app/api/activity', {
+      await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/activity', {
         user: user.name,
         activityType: "Plagiarism Checking",
         question: question,
         answer: generatedAnswer
       });
     } catch (error) {
-      console.error('Error saving activity to database:', error);
+      console.error('Error saving activity to database:', error.message);
     }
-  }
+  };
 
   const countWords = (text) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length;
