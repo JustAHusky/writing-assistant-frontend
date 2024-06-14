@@ -111,7 +111,7 @@ function Paraphraser({ user }) {
       setIsUser(false);
     }
   }, [])
- async function generateAnswer() {
+  async function generateAnswer() {
     try {
       const response = await axios({
         url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAECJjA7roZz7xaDpLTgpqMxow0WI4jaGc",
@@ -124,27 +124,29 @@ function Paraphraser({ user }) {
       });
       const generatedAnswer = response.data.candidates[0].content.parts[0].text;
       setAnswer(generatedAnswer);
-
       saveActivityToDatabase(question, generatedAnswer);
     } catch (error) {
+      console.error('Error generating answer:', error);
     }
   }
-
+  
   async function saveActivityToDatabase(question, generatedAnswer) {
     if (!user || !user.name) {
       return;
     }
-
+  
     try {
-      await axios.post('http://localhost:3080/api/activity', {
+      await axios.post('https://writing-assistant-backend.vercel.app/api/activity', {
         user: user.name,
         activityType: "Paraphrasing",
         question: question,
         answer: generatedAnswer
       });
     } catch (error) {
+      console.error('Error saving activity to database:', error);
     }
   }
+  
 
   const countWords = (text) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length;

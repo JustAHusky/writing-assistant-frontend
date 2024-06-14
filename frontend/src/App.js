@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
@@ -25,14 +25,10 @@ function App({ user, updateUser }) {
   const handleCallbackResponse = async (response) => {
     if (response) {
       const decodedToken = jwtDecode(response.credential);
-
       const { name, email } = decodedToken;
-
       const userObject = { name, email };
       updateUser(userObject);
-
       await saveUserToDatabase(userObject);
-
       navigate("/homepage");
     }
   };
@@ -45,8 +41,9 @@ function App({ user, updateUser }) {
 
   const saveUserToDatabase = async (userObject) => {
     try {
-      await axios.post('http://localhost:3080/api/user', userObject);
+      await axios.post('https://writing-assistant-backend.vercel.app/api/user', userObject);
     } catch (error) {
+      console.error('Error saving user to database:', error);
     }
   };
 
@@ -78,7 +75,7 @@ function App({ user, updateUser }) {
       ) : (
         <>
           <h1>Welcome, {user.name} ({user.email})</h1>
-          <p>Press the button below if you want to signout. See you next time!</p>
+          <p>Press the button below if you want to sign out. See you next time!</p>
           <button onClick={handleSignout} className="signout-button">Sign Out</button>
         </>
       )}

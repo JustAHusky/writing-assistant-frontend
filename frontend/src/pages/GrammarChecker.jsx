@@ -119,34 +119,35 @@ function GrammarChecker({ user }) {
         method: "POST",
         data: {
           contents: [
-            { parts: [{ text: `Check the input text for grammar and spelling errors and then give the corrected version with some suggestion down below, only give the answer, no need explaination: ${question}` }] }
+            { parts: [{ text: `Check the input text for grammar and spelling errors and then give the corrected version with some suggestions down below, only give the answer, no need for explanation: ${question}` }] }
           ],
         },
       });
       const generatedAnswer = response.data.candidates[0].content.parts[0].text;
       setAnswer(generatedAnswer);
-
       saveActivityToDatabase(question, generatedAnswer);
-    }
-    catch (error) {
+    } catch (error) {
+      console.error('Error generating answer:', error);
     }
   }
-
+  
   async function saveActivityToDatabase(question, generatedAnswer) {
     if (!user || !user.name) {
       return;
     }
-
+  
     try {
-      await axios.post('http://localhost:3080/api/activity', {
+      await axios.post('https://writing-assistant-backend.vercel.app/api/activity', {
         user: user.name,
         activityType: "Grammar Checking",
         question: question,
         answer: generatedAnswer
       });
     } catch (error) {
+      console.error('Error saving activity to database:', error);
     }
   }
+  
 
   const countWords = (text) => {
     return text.trim().split(/\s+/).filter(word => word.length > 0).length;

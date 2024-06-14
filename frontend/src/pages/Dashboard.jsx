@@ -118,27 +118,28 @@ const Dashboard = ({ user }) => {
     const fetchActivities = async () => {
       if (user) {
         try {
-          const response = await axios.get(`http://localhost:3080/api/activity/${user.name}`);
+          const response = await axios.get(`https://writing-assistant-backend.vercel.app/api/activity/${user.name}`);
           setActivities(response.data);
         } catch (error) {
           console.error('Error fetching activities:', error);
         }
       }
     };
-
+  
     fetchActivities();
   }, [user]);
-
+  
   const handleDeleteActivities = async () => {
     if (user) {
       try {
-        await axios.delete(`http://localhost:3080/api/activity/${user.name}`);
+        await axios.delete(`https://writing-assistant-backend.vercel.app/api/activity/${user.name}`);
         setActivities([]);
       } catch (error) {
         console.error('Error deleting activities:', error);
       }
     }
   };
+  
 
   const renderOutputWithLinks = (output) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
