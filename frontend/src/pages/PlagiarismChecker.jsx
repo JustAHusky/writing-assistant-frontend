@@ -115,7 +115,7 @@ function PlagiarismChecker({ user }) {
 
   const generateAnswer = async () => {
     try {
-      const response = await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/generate-answer', { question });
+      const response = await axios.post('https://writing-assistant-backend-p6lhlw9m9-huskys-projects-45b5fda8.vercel.app/api/generate-answer', { question });
       const { answer } = response.data;
       setAnswer(convertToLinks(answer));
       saveActivityToDatabase(question, answer);
@@ -134,7 +134,7 @@ function PlagiarismChecker({ user }) {
       return;
     }
     try {
-      await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/activity', {
+      await axios.post('https://writing-assistant-backend-p6lhlw9m9-huskys-projects-45b5fda8.vercel.app/api/activity', {
         user: user.name,
         activityType: "Plagiarism Checking",
         question: question,

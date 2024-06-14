@@ -41,7 +41,7 @@ function App({ user, updateUser }) {
 
   const saveUserToDatabase = async (userObject) => {
     try {
-      await axios.post('https://writing-assistant-backend-qzfpktmfl-huskys-projects-45b5fda8.vercel.app/api/user', userObject);
+      await axios.post('https://writing-assistant-backend-p6lhlw9m9-huskys-projects-45b5fda8.vercel.app/api/user', userObject);
     } catch (error) {
       console.error('Error saving user to database:', error.message);
     }
